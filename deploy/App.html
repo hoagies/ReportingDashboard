@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ReportingDashboard</title>
+
+    <script type="text/javascript" src="/apps/2.1/sdk.js"></script>
+
+    <script type="text/javascript">
+        Rally.onReady(function () {
+                Ext.define("CustomApp",{extend:"Rally.app.App",componentCls:"app",launch:function(){this.add({xtype:"rallycombobox",stateful:!0,stateId:this.getContext().getScopedStateId("initiative"),width:600,fieldLabel:"Select Initiative:",displayTpl:Ext.create("Ext.XTemplate",'<tpl for=".">',"{FormattedID} - {Name}","</tpl>"),tpl:Ext.create("Ext.XTemplate",'<tpl for=".">','<div class="x-boundlist-item">{FormattedID} - {Name}</div>',"</tpl>"),storeConfig:{autoLoad:!0,model:"PortfolioItem/Initiative",fetch:["FormattedID","Name","Description"],sorters:[{property:"ObjectID",direction:"ASC"}],remoteGroup:!1,remoteSort:!1,remoteFilter:!1,limit:1/0},listeners:{select:this._onLoad,ready:this._onLoad,scope:this}});var panelDesc=new Ext.Panel({id:"panelDesc",title:"Initiative Description",width:1e3,height:300,overflowY:"auto",bodyPadding:10});this.add(panelDesc);var panelBlockers=new Ext.Panel({id:"panelBlockers",title:"Blockers",width:1e3,height:300,overflowY:"auto",bodyPadding:10});this.add(panelBlockers)},_onLoad:function(a){var combo=this.down("rallycombobox"),initiativeDesc=combo.getRecord().get("Description"),that=this,panelDesc=that.down("#panelDesc");panelDesc.removeAll(),panelDesc.add({xtype:"box",autoEl:{id:"myelement",cn:initiativeDesc}})}});
+
+            Rally.launchApp('CustomApp', {
+                name:"ReportingDashboard",
+	            parentRepos:""
+            });
+
+        });
+    </script>
+
+
+    <style type="text/css">
+        
+    </style>
+</head>
+<body>
+</body>
+</html>
