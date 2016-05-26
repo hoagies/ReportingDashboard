@@ -44,7 +44,7 @@ Ext.define('CustomApp', {
 		var panelDesc = new Ext.Panel({
             id: 'panelDesc',
             title: 'Initiative Description',
-            width: 1000,
+            width: '100%',
             height: 300,
             overflowY: 'auto',
             bodyPadding: 10
