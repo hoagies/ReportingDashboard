@@ -52,15 +52,25 @@ Ext.define('CustomApp', {
         });
         this.add(panelDesc);
         
-        var panelBlockers = new Ext.Panel({
-            id: 'panelBlockers',
+        var panelBlockersUserStory = new Ext.Panel({
+            id: 'panelBlockersUserStory',
             title: 'Blockers - User Stories',
-            width: 1000,
-            height: 300,
+            width: '50%',
+            height: 250,
             overflowY: 'auto',
             bodyPadding: 10
         });
-        this.add(panelBlockers);
+        this.add(panelBlockersUserStory);
+        
+        var panelBlockersDefect = new Ext.Panel({
+            id: 'panelBlockersDefect',
+            title: 'Blockers - Defects',
+            width: '50%',
+            height: 250,
+            overflowY: 'auto',
+            bodyPadding: 10
+        });
+        // this.add(panelBlockersDefect);
 
     },
     
@@ -82,38 +92,26 @@ Ext.define('CustomApp', {
 		});
         
         // ***************************************
-    	// Load Blockers Panel
+    	// Load Blockers Panel - User Story
     	// ***************************************
-  //      if (this.down('#panelBlockers')) {
-		// 	this.down('#panelBlockers').destroy();
-		// }
-		var panelBlockers = that.down('#panelBlockers');
-		panelBlockers.removeAll();
+		var panelBlockersUserStory = that.down('#panelBlockersUserStory');
+		panelBlockersUserStory.removeAll();
 
-		panelBlockers.add({
-		// this.add({
+		panelBlockersUserStory.add({
 			xtype: 'rallygrid',
 			header: false,
-			width: '95%',
 			columnCfgs: [
-				{
-					text: 'ID', dataIndex: 'FormattedID', flex: 10
-				},
-				{
-					text: 'Name', dataIndex: 'Name', flex: 30
-				},
-				{
-					text: 'Blocked', dataIndex: 'Blocked', flex: 30
-				},
-				{
-					text: 'Blocked Reason', dataIndex: 'BlockedReason', flex: 30
-				}
+				{ text: 'ID', dataIndex: 'FormattedID', flex: 5 },
+				{ text: 'Name', dataIndex: 'Name', flex: 40 },
+				{ text: 'Iteration', dataIndex: 'Iteration', flex: 40 },
+				{ text: 'Blocked', dataIndex: 'Blocked', flex: 5 },
+				{ text: 'Blocked Reason', dataIndex: 'BlockedReason', flex: 40 }
 			],
 			enableEditing: false,
 			showRowActionsColumn: false,
 			showPagingToolbar: false,
 			storeConfig: {
-				model: 'userstory',
+				model: ['userstory'],
 				pageSize: 200,
 				filters: [that._getFilterGrid()]
 			}
@@ -136,12 +134,36 @@ Ext.define('CustomApp', {
 			// 	// },
 			// 	// scope: this
 			// }
-			
 		});
+
+		// ***************************************
+    	// Load Blockers Panel - Defect
+    	// ***************************************
+		// var panelBlockersDefect = that.down('#panelBlockersDefect');
+		// panelBlockersDefect.removeAll();
+
+		// panelBlockersDefect.add({
+		// 	xtype: 'rallygrid',
+		// 	header: false,
+		// 	columnCfgs: [
+		// 		{ text: 'ID', dataIndex: 'FormattedID', flex: 5 },
+		// 		{ text: 'Name', dataIndex: 'Name', flex: 40 },
+		// 		{ text: 'Blocked', dataIndex: 'Blocked', flex: 5 },
+		// 		{ text: 'Blocked Reason', dataIndex: 'BlockedReason', flex: 40 }
+		// 	],
+		// 	enableEditing: false,
+		// 	showRowActionsColumn: false,
+		// 	showPagingToolbar: false,
+		// 	storeConfig: {
+		// 		model: ['defect'],
+		// 		fetch: ['ObjectID', 'FormattedID','Name','Blocked', 'BlockedReason', 'Parent', 'Feature'],
+		// 		pageSize: 200,
+		// 		filters: [that._getFilterGridDefect()]
+		// 	}
+		// });
         
     },
     
-    // _getFilterGrid: function(record,id) {
     _getFilterGrid: function() {
 		var filters = Ext.create('Rally.data.QueryFilter', {
 			property: 'Blocked',
@@ -156,14 +178,26 @@ Ext.define('CustomApp', {
 			operator: '=',
 			value: initiativeID
 		}));
-		
-		// filters = filters.and(Ext.create('Rally.data.QueryFilter', {
-		// 	property: 'Project.Name',
-		// 	operator: '=',
-		// 	value: record
-		// }));
 
 		return filters;
 	},
+	
+    _getFilterGridDefect: function() {
+		var filters = Ext.create('Rally.data.QueryFilter', {
+			property: 'Blocked',
+			operator: '=',
+			value: true
+		});
+		
+		var comboInitiative = this.down('#comboInitiative');
+		var initiativeID = comboInitiative.getRecord().get('FormattedID');
+		filters = filters.and(Ext.create('Rally.data.QueryFilter', {
+			property: 'Requirement.Feature.Parent.Parent.FormattedID',
+			operator: '=',
+			value: initiativeID
+		}));
+
+		return filters;
+	}
     
 });
