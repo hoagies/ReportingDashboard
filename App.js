@@ -113,7 +113,10 @@ Ext.define('CustomApp', {
 			storeConfig: {
 				model: ['userstory'],
 				pageSize: 200,
-				filters: [that._getFilterGrid()]
+				filters: [that._getFilterGrid()],
+				sorters: [
+					{ property: 'Iteration', direction: 'ASC'}
+				]
 			}
 			// ******************************
 			// For Tooltip
