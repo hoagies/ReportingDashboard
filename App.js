@@ -55,8 +55,8 @@ Ext.define('CustomApp', {
         var panelBlockersUserStory = new Ext.Panel({
             id: 'panelBlockersUserStory',
             title: 'Blockers - User Stories',
-            width: '50%',
-            height: 600,
+            width: '100%',
+            height: 250,
             overflowY: 'auto',
             bodyPadding: 10
         });
