@@ -46,7 +46,7 @@ Ext.define('CustomApp', {
             id: 'panelDesc',
             title: 'Initiative Description',
             width: '100%',
-            height: 300,
+            height: 600,
             overflowY: 'auto',
             bodyPadding: 10
         });
@@ -56,7 +56,7 @@ Ext.define('CustomApp', {
             id: 'panelBlockersUserStory',
             title: 'Blockers - User Stories',
             width: '50%',
-            height: 250,
+            height: 600,
             overflowY: 'auto',
             bodyPadding: 10
         });
